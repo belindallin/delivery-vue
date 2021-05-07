@@ -5,10 +5,10 @@
       <div class="left-side">
         <div class="delivery">
           <Step/>
-          <div class="delivery-shipping">          
+          <div class="delivery-checkout">          
             <form>
               <h3 class="activity-title">付款資訊</h3>          
-              <div class="delivery-shipping-form">
+              <div class="delivery-checkout-form">
                 <div class="form-group ccname">
                   <label for="ccname">持卡人姓名</label>
                   <input id="ccname" name="ccname" type="name"  class="form-control"  placeholder="John Doe">
@@ -39,7 +39,7 @@
   </div>
 </template>
 
-<script>
+<script scoped>
 import Step from '../components/Step.vue'
 import Cart from '../components/Cart.vue'
 export default {
@@ -76,7 +76,7 @@ export default {
   width: 540px;
   margin-right: 30px;
 }
-.delivery-shipping{
+.delivery-checkout{
   position: relative;
 }
 .activity-title {
@@ -84,7 +84,7 @@ export default {
   font-size: 24px;
   font-weight: 700;
 }
-.delivery-shipping-form {
+.delivery-checkout-form {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(4, 64px);
@@ -121,6 +121,19 @@ export default {
   background-color: #f67599;
   color: white;
   border-color: #f67599;
+}
+.btn-warning,
+.btn-warning:hover,
+.btn-warning:focus,
+.btn-warning:active,
+.btn-outline-primary,
+.btn-outline-primary:focus,
+.btn-outline-primary:hover,
+.btn-outline-primary:active
+{
+  color: #fff!important;
+  background-color:  #f67599!important;
+  border-color: #f67599!important;
 }
 .right-side {
   grid-column: 3/4;

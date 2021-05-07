@@ -45,7 +45,7 @@
                 <input  id="address" name="address" type="text" class="form-control" placeholder="請輸入地址">
               </div>
             </div>
-            <router-link to="/delivery/shipping"><button type="button" class="btn btn-warning next-step">下一步 -></button></router-link>          
+            <router-link to="/delivery/shipping"><button type="button" class="btn btn-warning next-step">下一步&rarr;</button></router-link>          
           </form>
         </div>
       </div>

@@ -2,35 +2,19 @@
   <div class="cart">
         <h4 class="cart-title">購物籃</h4>
         <div class="cart-items">
-          <div class="cart-item">
+          <div v-for ="item in cartItems" :key="item.id" class="cart-item">
             <div class="item-photo">
-              <img class="product-photo" src="https://static.remove.bg/remove-bg-web/2a274ebbb5879d870a69caae33d94388a88e0e35/assets/start-0e837dcc57769db2306d8d659f53555feb500b3c5d456879b9c843d1872e7baa.jpg" alt="">
+              <img class="product-photo" :src="item.img" alt="">
             </div>
             <div class="item-description">
               <div class="item-info">
-                <p class="item-name">破壞補丁修身牛仔褲</p>
-                <p class="item-price">$3,999</p>
+                <p class="item-name">{{item.productName}}</p>
+                <p class="item-price">${{item.price}}</p>
               </div>
               <div class="item-quantily">
-                <div type="button" class="circle">-</div>
-                <p class="item-amount">1</p>
-                <div type="button" class="circle">+</div>
-              </div> 
-            </div>                       
-          </div>
-          <div class="cart-item">
-            <div class="item-photo">
-              <img class="product-photo" src="https://static.remove.bg/remove-bg-web/2a274ebbb5879d870a69caae33d94388a88e0e35/assets/start-0e837dcc57769db2306d8d659f53555feb500b3c5d456879b9c843d1872e7baa.jpg" alt="">
-            </div>
-            <div class="item-description">
-              <div class="item-info">
-                <p class="item-name">破壞補丁修身牛仔褲</p>
-                <p class="item-price">$3,999</p>
-              </div>
-              <div class="item-quantily">
-                <div type="button" class="circle">-</div>
-                <p class="item-amount">1</p>
-                <div type="button" class="circle">+</div>
+                <div @click="reduceMount(item.id)" type="button" class="circle">-</div>
+                <p class="item-amount">{{item.count}}</p>
+                <div @click="addMount(item.id)" type="button" class="circle">+</div>
               </div> 
             </div>                       
           </div>
@@ -41,10 +25,72 @@
         </div>      
         <div class="total">
           <p class="total-name">小計</p>
-          <p class="total-price">$5298</p>
+          <p class="total-price">${{totalPrice}}</p>
         </div>
       </div>
 </template>
+
+<script>
+const dummyCartItems = [
+  {
+    id: '1',
+    productName: '破壞補丁修身牛仔褲',
+    img: "https://www.yuting.idv.tw/OneBoyInc/image/2018090720Y-F/medium/61813B.jpg",
+    price: 3999,
+    count: 1
+  },
+  {
+    id: '2',
+    productName: '刷色直筒牛仔褲',
+    img: "https://image.obdesign.com.tw/catalog/products/BA5036/BA5036@T9-1.jpg",
+    price: 1299,
+    count: 1
+  }
+]
+
+export default {
+  name: 'Cart',
+  data() {
+    return {
+      cartItems: [],
+      totalPrice: 0
+    }    
+  },
+  methods: {
+    fetchCartItems() {
+      this.cartItems = dummyCartItems
+      console.log(this.cartItems)
+    },
+    addMount(id) {
+      this.cartItems.find(item => {
+        if (id === item.id) {
+          item.count += 1
+          this.totalPrice += item.price
+        }
+      })
+    },
+    reduceMount(id) {
+      this.cartItems.find(item => {
+        if (id === item.id) {
+          item.count -= 1
+          this.totalPrice -= item.price
+        }
+      })
+    },
+    calculateTotal() {
+      this.cartItems.map(item => {
+        this.totalPrice += item.price
+      })
+      console.log(this.totalPrice)
+    },
+  },
+  created() {
+    this.fetchCartItems(),
+    this.calculateTotal()
+  }
+}
+</script>
+
 
 <style>
 .cart-title {
@@ -60,7 +106,7 @@
 .product-photo {
   width: 100px;
   height: 100px;
-  backgroind-size: cover;
+  background-size: cover;
   margin-right: 24px;
   border-radius: 4px;
 }
@@ -78,9 +124,6 @@
 }
 .item-quantily {
   display: flex;
-}
-.item-reduce {
-  
 }
 .circle {
   width: 26.02px;

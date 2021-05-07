@@ -4,7 +4,7 @@
     <h1 class="title">結帳</h1>
     <div class="left-side">
       <div class="delivery">
-        <Step/>
+        <Step :currentPage="currentPage" />
         <div class="delivery-address">          
           <form>
             <h3 class="activity-title">寄送地址</h3>          
@@ -18,15 +18,15 @@
               </div>
               <div class="form-group name">
                 <label for="name">姓名</label>
-                <input id="name" name="name" type="name"  class="form-control"  placeholder="請輸入姓名">
+                <input v-model="deliveryInfo.username" id="name" name="name" type="name"  class="form-control"  placeholder="請輸入姓名">
               </div>
               <div class="form-group phone">
                 <label for="phone">電話</label>
-                <input id="phone" name="phone"  type="text"  class="form-control" placeholder="請輸入行動電話">
+                <input v-model="deliveryInfo.phone" id="phone" name="phone"  type="text"  class="form-control" placeholder="請輸入行動電話">
               </div>
               <div class="form-group email">
                 <label for="email">Email</label>
-                <input id="email" name="email"  type="email"  class="form-control" placeholder="請輸入電子郵件">
+                <input v-model="deliveryInfo.email" id="email" name="email"  type="email"  class="form-control" placeholder="請輸入電子郵件">
               </div>
               <div class="form-group city">
                 <label for="city">縣市</label>
@@ -41,11 +41,11 @@
                 </select>
               </div>
               <div class="form-group address">
-                <label for="address">地址</label>
-                <input  id="address" name="address" type="text" class="form-control" placeholder="請輸入地址">
+                <label for="deliveryInfo.address">地址</label>
+                <input v-model="deliveryInfo.address"  id="address" name="address" type="text" class="form-control" placeholder="請輸入地址">
               </div>
             </div>
-            <router-link to="/delivery/shipping"><button type="button" class="btn btn-warning next-step">下一步&rarr;</button></router-link>          
+            <router-link :deliveryInfo="deliveryInfo" to="/delivery/shipping"><button @click="handleAfter" type="button" class="btn btn-warning next-step">下一步&rarr;</button></router-link>          
           </form>
         </div>
       </div>
@@ -65,8 +65,26 @@ export default {
   components: {
     Step,
     Cart
-  }
-    
+  },
+  data() {
+    return {
+      deliveryInfo: {
+        username: '',
+        salutation: '',
+        phone: '',
+        email: '',
+        city: '',
+        address: '',
+        deliveryInfo: '',
+      },
+      currentPage: 'Address'      
+    }
+  },
+  methods: {
+    handleAfter() {
+      console.log(this.deliveryInfo)
+    }
+  }    
 }
 </script>
 

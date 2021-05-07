@@ -4,7 +4,7 @@
       <h1 class="title">結帳</h1>
       <div class="left-side">
         <div class="delivery">
-          <Step/>
+          <Step :currentPage="currentPage"/>
           <div class="delivery-checkout">          
             <form>
               <h3 class="activity-title">付款資訊</h3>          
@@ -43,12 +43,16 @@
 import Step from '../components/Step.vue'
 import Cart from '../components/Cart.vue'
 export default {
-  name: 'Address',
+  name: 'Checkout',
   components: {
     Step,
     Cart
-  }
-    
+  },
+  data() {
+    return {
+      currentPage: 'Checkout'  
+    }
+  }    
 }
 </script>
 

@@ -4,7 +4,7 @@
     <h1 class="title">結帳</h1>
     <div class="left-side">
       <div class="delivery">
-        <Step/>
+        <Step :currentPage="currentPage"/>
         <div class="delivery-shipping">          
           <form>
             <h3 class="activity-title">運送方式</h3>          
@@ -43,10 +43,21 @@
 import Step from '../components/Step.vue'
 import Cart from '../components/Cart.vue'
 export default {
-  name: 'Address',
+  name: 'Shipping',
   components: {
     Step,
     Cart
+  },
+  props: {
+    deliveryInfo: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+      currentPage: 'Shipping'  
+    }
   }
     
 }

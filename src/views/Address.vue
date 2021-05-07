@@ -93,7 +93,7 @@ export default {
 #checkout {
   display: grid;
   grid-template-columns: 165px 1fr 165px;
-  margin: 140px;
+  margin: 100px 50px;
 }
 .content {
   grid-column: 2/3;

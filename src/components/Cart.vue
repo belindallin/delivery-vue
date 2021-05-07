@@ -81,12 +81,16 @@ export default {
       this.cartItems.map(item => {
         this.totalPrice += item.price
       })
-      console.log(this.totalPrice)
     },
+    handleSubmit() {     
+      const payLoad = {totalPrice: this.totalPrice}
+      this.$emit('after-submit', payLoad)
+    }
   },
   created() {
     this.fetchCartItems(),
     this.calculateTotal()
+    this.handleSubmit()
   }
 }
 </script>

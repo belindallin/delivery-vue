@@ -42,6 +42,9 @@
 <script>
 import Step from '../components/Step.vue'
 import Cart from '../components/Cart.vue'
+
+const STORAGE_KEY = 'delivery-shipping-vue'
+
 export default {
   name: 'Shipping',
   components: {
@@ -56,6 +59,11 @@ export default {
     }
   },
   methods: {
+    fetchshippingMethod() {
+      const data = JSON.parse(localStorage.getItem(STORAGE_KEY))
+      this.shippingMethod = data.shippingMethod
+      this.shippingPrice = data.shippingPrice
+    },
     calculateShippingPrice() {
       if(this.shippingMethod === 'standard') {
         this.shippingPrice = 0
@@ -68,13 +76,16 @@ export default {
         shippingMethod: this.shippingMethod,
         shippingPrice: this.shippingPrice
       }
-      console.log(payLoad)
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payLoad))
     }
   },
   watch:{
     shippingMethod() {
       this.calculateShippingPrice()
     }    
+  },
+  created() {
+    this.fetchshippingMethod()
   }  
 }
 </script>

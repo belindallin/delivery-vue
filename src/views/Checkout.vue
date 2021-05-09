@@ -27,7 +27,7 @@
                 </div>
               </div>
               <router-link to="/delivery/shipping"><p type="button" class="btn pre-step">&larr;上一步</p></router-link>              
-              <button @click="handSubmit" type="button" class="btn btn-warning next-step">確認下單</button>         
+              <button @click="handleSubmit();resultDelivertInfo()" type="button" class="btn btn-warning next-step">確認下單</button>         
             </form>
           </div>
         </div>
@@ -42,6 +42,9 @@
 <script scoped>
 import Step from '../components/Step.vue'
 import Cart from '../components/Cart.vue'
+
+const STORAGE_KEY = 'delivery-checkout-vue'
+
 export default {
   name: 'Checkout',
   components: {
@@ -54,23 +57,43 @@ export default {
       cardNumber: '',
       expdate: '',
       cvv: '',
-      currentPage: 'Checkout'  
+      currentPage: 'Checkout'
     }
   },
   methods: {
-    handSubmit() {
+    fetchCheckInfo() {
+      const data = JSON.parse(localStorage.getItem(STORAGE_KEY))
+      this.ccname = data.ccname
+      this.cardNumber = data.cardNumber
+      this.expdate = data.expdate
+      this.cvv = data.cvv
+    },
+    handleSubmit() {
       const payLoad = {
         ccname: this.ccname,
         cardNumber: this.cardNumber,
         expdate: this.expdate,
         cvv: this.cvv
       }
-      console.log(payLoad)
-      console.log(this)
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payLoad))
     },
     afterHandleSubmit(payLoad) {
       console.log(payLoad)
+    },
+    resultDelivertInfo() {
+      const address = JSON.parse(localStorage.getItem('delivery-address-vue'))
+      const shipping = JSON.parse(localStorage.getItem('delivery-shipping-vue'))
+      const checkout = JSON.parse(localStorage.getItem(STORAGE_KEY))
+      const result = {
+        ...address,
+        ...shipping,
+        ...checkout
+      }
+      console.log(result)
     }
+  },
+  created() {
+    this.fetchCheckInfo()
   }
 }
 </script>

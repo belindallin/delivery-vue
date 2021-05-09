@@ -61,7 +61,7 @@
 import Step from '../components/Step.vue'
 import Cart from '../components/Cart.vue'
 
-const STORAGE_KEY = 'delivery-vue'
+const STORAGE_KEY = 'delivery-address-vue'
 
 export default {
   name: 'Address',
@@ -81,6 +81,15 @@ export default {
     }
   },
   methods: {
+    fetchAddress() {
+      const data = JSON.parse(localStorage.getItem(STORAGE_KEY))
+      this.username = data.name
+      this.salutation = data.salutation
+      this.phone = data.phone
+      this.email = data.email
+      this.city = data.city
+      this.address = data.address
+    },
     handleSubmit() {
       const payLoad = {
         name: this.username,
@@ -91,8 +100,10 @@ export default {
         address: this.city,
       }      
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payLoad))
-      console.log(payLoad)
     }
+  },
+  created() {
+    this.fetchAddress()
   }  
 }
 </script>

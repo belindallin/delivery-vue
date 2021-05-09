@@ -11,41 +11,41 @@
             <div class="delivery-address-form">
                 <div class="form-group salutation">
                 <label for="salutation">稱謂</label>
-                <select class="form-control" id="salutation">
-                  <option>先生</option>
-                  <option>女士</option>
+                <select v-model="salutation" class="form-control" id="salutation">
+                  <option value="先生">先生</option>
+                  <option value="女士">女士</option>
                 </select>
               </div>
               <div class="form-group name">
                 <label for="name">姓名</label>
-                <input v-model="deliveryInfo.username" id="name" name="name" type="name"  class="form-control"  placeholder="請輸入姓名">
+                <input v-model="username" id="name" name="name" type="name"  class="form-control"  placeholder="請輸入姓名">
               </div>
               <div class="form-group phone">
                 <label for="phone">電話</label>
-                <input v-model="deliveryInfo.phone" id="phone" name="phone"  type="text"  class="form-control" placeholder="請輸入行動電話">
+                <input v-model="phone" id="phone" name="phone"  type="text"  class="form-control" placeholder="請輸入行動電話">
               </div>
               <div class="form-group email">
                 <label for="email">Email</label>
-                <input v-model="deliveryInfo.email" id="email" name="email"  type="email"  class="form-control" placeholder="請輸入電子郵件">
+                <input v-model="email" id="email" name="email"  type="email"  class="form-control" placeholder="請輸入電子郵件">
               </div>
               <div class="form-group city">
                 <label for="city">縣市</label>
-                <select class="form-control" id="city">
+                <select v-model="city" class="form-control" id="city">
                   <option>請選擇縣市</option>
-                  <option>台北</option>
-                  <option>台中</option>
-                  <option>台南</option>
-                  <option>高雄</option>
-                  <option>南投</option>
-                  <option>新竹</option>
+                  <option value="台北">台北</option>
+                  <option value="台中">台中</option>
+                  <option value="台南">台南</option>
+                  <option value="高雄">高雄</option>
+                  <option value="南投">南投</option>
+                  <option value="新竹">新竹</option>
                 </select>
               </div>
               <div class="form-group address">
-                <label for="deliveryInfo.address">地址</label>
-                <input v-model="deliveryInfo.address"  id="address" name="address" type="text" class="form-control" placeholder="請輸入地址">
+                <label for="address">地址</label>
+                <input v-model="address"  id="address" name="address" type="text" class="form-control" placeholder="請輸入地址">
               </div>
             </div>
-            <router-link :deliveryInfo="deliveryInfo" to="/delivery/shipping"><button @click="handleAfter" type="button" class="btn btn-warning next-step">下一步&rarr;</button></router-link>          
+            <router-link to="/delivery/shipping"><button @click="handleSubmit" type="button" class="btn btn-warning next-step">下一步&rarr;</button></router-link>          
           </form>
         </div>
       </div>
@@ -60,6 +60,9 @@
 <script>
 import Step from '../components/Step.vue'
 import Cart from '../components/Cart.vue'
+
+const STORAGE_KEY = 'delivery-vue'
+
 export default {
   name: 'Address',
   components: {
@@ -68,23 +71,29 @@ export default {
   },
   data() {
     return {
-      deliveryInfo: {
-        username: '',
-        salutation: '',
-        phone: '',
-        email: '',
-        city: '',
-        address: '',
-        deliveryInfo: '',
-      },
-      currentPage: 'Address'      
+      username: '',
+      salutation: '先生',
+      phone: '',
+      email: '',
+      city: '請選擇縣市',
+      address: '',
+      currentPage: 'Address'     
     }
   },
   methods: {
-    handleAfter() {
-      console.log(this.deliveryInfo)
+    handleSubmit() {
+      const payLoad = {
+        name: this.username,
+        salutation: this.salutation,
+        phone: this.phone,
+        email: this.email,
+        city: this.city,
+        address: this.city,
+      }      
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payLoad))
+      console.log(payLoad)
     }
-  }    
+  }  
 }
 </script>
 

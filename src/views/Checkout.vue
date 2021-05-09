@@ -11,23 +11,23 @@
               <div class="delivery-checkout-form">
                 <div class="form-group ccname">
                   <label for="ccname">持卡人姓名</label>
-                  <input id="ccname" name="ccname" type="name"  class="form-control"  placeholder="John Doe">
+                  <input v-model="ccname" id="ccname" name="ccname" type="name"  class="form-control"  placeholder="John Doe">
                 </div>
                 <div class="form-group cardnumber">
                   <label for="cardnumber">卡號</label>
-                  <input id="cardnumber" name="cardnumber" type="text"  class="form-control"  placeholder="1111 2222 3333 4444">
+                  <input v-model="cardNumber" id="cardnumber" name="cardnumber" type="text"  class="form-control"  placeholder="1111 2222 3333 4444">
                 </div>
                 <div class="form-group expdate">
                   <label for="expdate">有效日期</label>
-                  <input id="expdate" name="expdate"  type="text"  class="form-control" placeholder="MM/YY">
+                  <input v-model="expdate" id="expdate" name="expdate"  type="text"  class="form-control" placeholder="MM/YY">
                 </div>
                 <div class="form-group cvv">
                   <label for="cvv">cvc/cvv</label>
-                  <input id="cvv" name="cvv"  type="text"  class="form-control" placeholder="123">
+                  <input  v-model="cvv" id="cvv" name="cvv"  type="text"  class="form-control" placeholder="123">
                 </div>
               </div>
               <router-link to="/delivery/shipping"><p type="button" class="btn pre-step">&larr;上一步</p></router-link>              
-              <button type="button" class="btn btn-warning next-step">確認下單</button>         
+              <button @click="handSubmit" type="button" class="btn btn-warning next-step">確認下單</button>         
             </form>
           </div>
         </div>
@@ -50,10 +50,24 @@ export default {
   },
   data() {
     return {
+      ccname: '',
+      cardNumber: '',
+      expdate: '',
+      cvv: '',
       currentPage: 'Checkout'  
     }
   },
   methods: {
+    handSubmit() {
+      const payLoad = {
+        ccname: this.ccname,
+        cardNumber: this.cardNumber,
+        expdate: this.expdate,
+        cvv: this.cvv
+      }
+      console.log(payLoad)
+      console.log(this)
+    },
     afterHandleSubmit(payLoad) {
       console.log(payLoad)
     }

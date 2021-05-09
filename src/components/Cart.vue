@@ -59,7 +59,6 @@ export default {
   methods: {
     fetchCartItems() {
       this.cartItems = dummyCartItems
-      console.log(this.cartItems)
     },
     addMount(id) {
       this.cartItems.find(item => {

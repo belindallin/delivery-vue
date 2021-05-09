@@ -10,24 +10,24 @@
             <h3 class="activity-title">運送方式</h3>          
             <div class="delivery-shipping-form">
               <div class="form-group standard checked">
-                <input id="standard" name="standard" type="radio" value="standard">
+                <input v-model="shippingMethod" id="standard" name="standard" type="radio" value="standard">
                 <div class="shipping-info">
-                  <p class="shipping-name">標準運送</p>
+                  <label class="shipping-name">標準運送</label>
                   <p class="shipping-during">約3-7個工作天</p>
                 </div>
                 <p class="shipping-price">免費</p>
               </div>
               <div class="form-group dhl">
-                <input id="dhl" name="dhl" type="radio" value="dhl">
+                <input v-model="shippingMethod" id="dhl" name="dhl" type="radio" value="dhl">
                 <div class="shipping-info">
-                  <p class="shipping-name">DHL 貨運</p>
+                  <label class="shipping-name">DHL 貨運</label>
                   <p class="shipping-during">48小時內送達</p>
                 </div>
                 <p class="shipping-price">$500</p>
               </div>
             </div>
             <router-link to="/delivery/address"><p type="button" class="btn pre-step">&larr;上一步</p></router-link>   
-            <router-link to="/delivery/checkout"><button type="button" class="btn btn-warning next-step">下一步&rarr;</button></router-link>          
+            <router-link to="/delivery/checkout"><button @click="handleSubmit" type="button" class="btn btn-warning next-step">下一步&rarr;</button></router-link>          
           </form>
         </div>
       </div>
@@ -48,18 +48,34 @@ export default {
     Step,
     Cart
   },
-  props: {
-    deliveryInfo: {
-      type: Object,
-      required: true
-    }
-  },
   data() {
     return {
+      shippingMethod:'',
+      shippingPrice: 0,
       currentPage: 'Shipping'  
     }
-  }
-    
+  },
+  methods: {
+    calculateShippingPrice() {
+      if(this.shippingMethod === 'standard') {
+        this.shippingPrice = 0
+      } else {
+        this.shippingPrice = 500
+      }
+    },
+    handleSubmit() {
+      const payLoad = {
+        shippingMethod: this.shippingMethod,
+        shippingPrice: this.shippingPrice
+      }
+      console.log(payLoad)
+    }
+  },
+  watch:{
+    shippingMethod() {
+      this.calculateShippingPrice()
+    }    
+  }  
 }
 </script>
 

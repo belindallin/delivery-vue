@@ -20,8 +20,8 @@
           </div>
         </div>
         <div class="shipping">
-          <p class="shipping-title">運費</p>
-          <p class="shipping-price">免費</p>
+          <p class="shipping-title">運費</p>      
+          <p class="shipping-price">{{shippingPrice}}</p>
         </div>      
         <div class="total">
           <p class="total-name">小計</p>
@@ -53,6 +53,7 @@ export default {
   data() {
     return {
       cartItems: [],
+      shippingPrice: JSON.parse(localStorage.getItem('delivery-shipping-vue')).shippingPrice,
       totalPrice: 0
     }    
   },
@@ -78,12 +79,18 @@ export default {
     },
     calculateTotal() {
       this.cartItems.map(item => {
-        this.totalPrice += item.price
+        this.totalPrice +=  item.price
       })
+      this.totalPrice += this.shippingPrice
     },
     handleSubmit() {     
       const payLoad = {totalPrice: this.totalPrice}
       this.$emit('after-submit', payLoad)
+    }
+  },
+  watch: {
+    totalPrice() {
+      this.handleSubmit()
     }
   },
   created() {

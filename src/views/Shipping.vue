@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="right-side">
-      <cart/>
+      <cart />
     </div>
   </div>
 </div>

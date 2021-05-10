@@ -26,22 +26,27 @@
                   <input  v-model="cvv" id="cvv" name="cvv"  type="text"  class="form-control" placeholder="123">
                 </div>
               </div>
-              <router-link to="/delivery/shipping"><p type="button" class="btn pre-step">&larr;上一步</p></router-link>              
-              <button @click="handleSubmit();resultDelivertInfo()" type="button" class="btn btn-warning next-step">確認下單</button>         
+              <router-link to="/delivery/shipping"><p type="button" class="btn pre-step">&larr;上一步</p></router-link>          
+              <button @click="handleSubmit();resultDelivertInfo();showModal()" type="button" class="btn btn-warning next-step" data-toggle="modal" data-target="#resultModal">
+                確認下單
+              </button>    
             </form>
           </div>
         </div>
       </div>
       <div class="right-side">
         <Cart @after-submit="afterHandleSubmit"/>
-      </div>
+      </div>         
+      <ResultModal :intial-delivery-info="deliveryInfo" :intial-is-show-modal = "isShowModal" @after-handle-close = "changeIsModalShow"/>  
     </div>
-  </div>
+    
+  </div>  
 </template>
 
 <script scoped>
 import Step from '../components/Step.vue'
 import Cart from '../components/Cart.vue'
+import ResultModal from '../components/ResultModal.vue'
 
 const STORAGE_KEY = 'delivery-checkout-vue'
 
@@ -49,7 +54,8 @@ export default {
   name: 'Checkout',
   components: {
     Step,
-    Cart
+    Cart,
+    ResultModal
   },
   data() {
     return {
@@ -57,7 +63,11 @@ export default {
       cardNumber: '',
       expdate: '',
       cvv: '',
-      currentPage: 'Checkout'
+      totalPrice: '',
+      deliveryInfo: '',
+      isShowModal: false,
+      currentPage: 'Checkout',
+      modalId: 'resultModal'
     }
   },
   methods: {
@@ -78,18 +88,31 @@ export default {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payLoad))
     },
     afterHandleSubmit(payLoad) {
-      console.log(payLoad)
+      this.totalPrice = payLoad.totalPrice
     },
     resultDelivertInfo() {
       const address = JSON.parse(localStorage.getItem('delivery-address-vue'))
       const shipping = JSON.parse(localStorage.getItem('delivery-shipping-vue'))
       const checkout = JSON.parse(localStorage.getItem(STORAGE_KEY))
-      const result = {
+      this.deliveryInfo = {
         ...address,
         ...shipping,
-        ...checkout
+        ...checkout,
+        totalPrice: this.totalPrice
+      }
+      const result = {
+        ...this.deliveryInfo
       }
       console.log(result)
+    },
+    showModal() {
+      this.isShowModal = true
+    },
+    cancelModal() {
+      this.isShowModal = false
+    },
+    changeIsModalShow(modalStatus) {
+      this.isShowModal = modalStatus
     }
   },
   created() {
@@ -187,6 +210,9 @@ export default {
   padding: 32px 5% 52px 24px;
   border: 1px solid #f0f0f0;
   border-radius: 8px;
+}
+.showModal {
+  background: #f67599
 }
 </style>
 
